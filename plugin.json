@@ -1,0 +1,24 @@
+{
+    "pluginName": "图片聊天",
+    "description": "将文字转成图片(表情)",
+    
+    "version": "0.0.1",
+    "logo": "img/1.png",
+    "preload": "preload.js",
+    "author": "kexingfu",
+    "features": [
+        {
+            "code": "转成表情",
+            "explain": "图片聊天",
+            "cmds": [
+                {
+                    "type": "regex",
+                    "label": "转成表情",
+                    "match": "/(.)*/g",
+                    "minLength": 1,
+                    "maxLength": 100
+                }
+            ]
+        }
+    ]
+}
