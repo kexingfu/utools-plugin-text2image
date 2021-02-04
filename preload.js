@@ -69,7 +69,11 @@ window.exports = {
                     context.fillText('\n', (canvas.width-2*leftField)/2, img.height+fontSize * (3 / 2) * i++, canvas.width-leftField);
                 }
                 utools.copyImage(canvas.toDataURL("image/png"))
-                utools.simulateKeyboardTap('v', 'ctrl')
+                if (utools.isMacOs()) {
+                    utools.simulateKeyboardTap('v', 'command')
+                  }else{
+                    utools.simulateKeyboardTap('v', 'ctrl')
+                  }
                 utools.outPlugin()
          } 
        } ,placeholder: "搜索"
