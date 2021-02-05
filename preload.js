@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const PinyinMatch = require('pinyin-match');
 
-var setTextList = ['委屈','冷笑','装逼','坏笑','傻笑','哭了','脸红','生气']
+var setTextList = ['委屈','冷笑','装逼','坏笑','傻笑','哭了','脸红','生气','大声说','就差一点了','记日记','牛逼','好像有人说我帅','我不想和你玩','灰头土脸','就你也配','直呼内行','打电话','以后给我小心','闭月羞花']
 var setList = setTextList.map((v,i)=>{return {title:v, url:(i+1).toString()+".png", icon:"img/"+(i+1).toString()+".png"}})
 
 window.exports = {
@@ -69,7 +69,11 @@ window.exports = {
                     context.fillText('\n', (canvas.width-2*leftField)/2, img.height+fontSize * (3 / 2) * i++, canvas.width-leftField);
                 }
                 utools.copyImage(canvas.toDataURL("image/png"))
-                utools.simulateKeyboardTap('v', 'ctrl')
+                if (utools.isMacOs()) {
+                    utools.simulateKeyboardTap('v', 'command')
+                  }else{
+                    utools.simulateKeyboardTap('v', 'ctrl')
+                  }
                 utools.outPlugin()
          } 
        } ,placeholder: "搜索"
