@@ -2,10 +2,11 @@
     "pluginName": "图片聊天",
     "description": "将文字转成图片(表情)",
     
-    "version": "0.0.1",
+    "version": "0.0.2",
     "logo": "img/1.png",
     "preload": "preload.js",
     "author": "kexingfu",
+    "homepage": "https://github.com/kexingfu/utools-plugin-text2image",
     "features": [
         {
             "code": "转成表情",

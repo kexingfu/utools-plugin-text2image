@@ -1,9 +1,29 @@
 const fs = require('fs');
 const path = require('path');
+const join = require('path').join;
 const PinyinMatch = require('pinyin-match');
 
-var setTextList = ['委屈','冷笑','装逼','坏笑','傻笑','哭了','脸红','生气','大声说','就差一点了','记日记','牛逼','好像有人说我帅','我不想和你玩','灰头土脸','就你也配','直呼内行','打电话','以后给我小心','闭月羞花']
-var setList = setTextList.map((v,i)=>{return {title:v, url:(i+1).toString()+".png", icon:"img/"+(i+1).toString()+".png"}})
+// var setTextList = ['委屈','冷笑','装逼','坏笑','傻笑','哭了','脸红','生气','大声说','就差一点了','记日记','牛逼','好像有人说我帅','我不想和你玩','灰头土脸','就你也配','直呼内行','打电话','以后给我小心','闭月羞花']
+// var setList = setTextList.map((v,i)=>{return {title:v, url:(i+1).toString()+".png", icon:"img/"+(i+1).toString()+".png"}})
+// 重写逻辑，更易于扩展
+var filePaths = []
+var fileNames = []
+var setList = []
+//获取目录下所有图片
+function findSync(startPath) {
+  let result=[];
+  function finder(path) {
+      let files=fs.readdirSync(path);
+      files.forEach((val,index) => {
+          let fPath=join(path,val);
+          let stats=fs.statSync(fPath);
+          if(stats.isDirectory()) finder(fPath);
+          if(stats.isFile()) result.push(fPath);
+      });
+  }
+  finder(startPath);
+  return result;
+}
 
 window.exports = {
     "转成表情": { // 注意：键对应的是 plugin.json 中的 features.code
@@ -12,6 +32,9 @@ window.exports = {
           // 进入插件时调用
           enter: (action, callbackSetList) => {
             // 如果进入插件就要显示列表数据
+            filePaths = findSync(path.join(__dirname, 'imgs/'))
+            fileNames = filePaths.map(v => v.split('\\').slice(-1)[0]);
+            setList = fileNames.map((v,i)=>{return {title:v.slice(0,-4), url:filePaths[i], icon: 'imgs/' + filePaths[i].split('imgs').slice(-1)[0].substring(1)}})
             callbackSetList(setList)
          },
            search: (action, searchWord, callbackSetList) => {
@@ -23,7 +46,7 @@ window.exports = {
          select: (action, itemData, callbackSetList) => {
             utools.hideMainWindow()
             var text = itemData.other? itemData.other: action.payload
-            filePath = path.join(__dirname, 'img/'+itemData.url); //默认图片地址
+            filePath = itemData.url
             file = fs.readFileSync(filePath); //读取文件
 
             var img = new Image();
