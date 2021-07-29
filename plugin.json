@@ -2,9 +2,9 @@
     "pluginName": "图片聊天",
     "description": "将文字转成图片(表情)",
     
-    "version": "0.0.2",
+    "version": "0.0.4",
     "logo": "logo.png",
-    "preload": "preload.js",
+    "preload": "dist/preload.js",
     "author": "kexingfu",
     "homepage": "https://github.com/kexingfu/utools-plugin-text2image",
     "features": [
@@ -20,6 +20,12 @@
                     "maxLength": 100
                 }
             ]
+        },
+        {
+          "code": "text2image-setting",
+          "explain": "图片聊天插件 配置信息",
+          "cmds": ["图片聊天-配置"],
+          "icon": "logo.png"
         }
     ]
 }
