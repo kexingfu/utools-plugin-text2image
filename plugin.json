@@ -3,7 +3,7 @@
     "description": "将文字转成图片(表情)",
     
     "version": "0.0.4",
-    "logo": "logo.png",
+    "logo": "dist/logo.png",
     "preload": "dist/preload.js",
     "author": "kexingfu",
     "homepage": "https://github.com/kexingfu/utools-plugin-text2image",

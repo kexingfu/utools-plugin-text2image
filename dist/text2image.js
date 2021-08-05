@@ -8,14 +8,20 @@ const join = require('path').join;
 const PinyinMatch = require('pinyin-match');
 exports.STORAGE = "vscode_storage";
 class Text2Image {
-    constructor() {
+    constructor(code) {
         this.code = "转成表情";
         this.setList = [];
+        this.code = code;
     }
     get imagepath() {
         if (!this._imagepath)
             this._imagepath = utools_helper_1.Setting.Get("imagepath");
         return this._imagepath;
+    }
+    get regex() {
+        if (!this._regex)
+            this._regex = utools_helper_1.Setting.Get("regex");
+        return this._regex;
     }
     async enter() {
         let customFilePaths = [];
@@ -57,6 +63,9 @@ class Text2Image {
         var text = action.payload;
         let filePath = itemData.url;
         let file = fs.readFileSync(filePath); //读取文件
+        var reg = eval(this.regex);
+        text = reg.exec(text)[0];
+        //text = text.match(this.regex)[0]
         var img = new Image();
         img.src = "data:image/jpeg;base64," + file.toString('base64');
         img.onload = () => {

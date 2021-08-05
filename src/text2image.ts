@@ -10,14 +10,21 @@ export const STORAGE = "vscode_storage";
 export class Text2Image implements Plugin {
   code = "转成表情";
   _imagepath: string;
+  _regex: string;
   setList :ListItem[]= [];
 
-  constructor() {
+  constructor(code:string) {
+    this.code = code
   }
 
   get imagepath(): string {
     if (!this._imagepath) this._imagepath = Setting.Get("imagepath");
     return this._imagepath;
+  }
+
+  get regex(): string {
+    if (!this._regex) this._regex = Setting.Get("regex");
+    return this._regex;
   }
 
   async enter(): Promise<ListItem[]> {
@@ -59,6 +66,10 @@ export class Text2Image implements Plugin {
     var text = action.payload
     let filePath = itemData.url
     let file = fs.readFileSync(filePath); //读取文件
+
+    var reg = eval(this.regex)
+    text = reg.exec(text)[0]
+    //text = text.match(this.regex)[0]
 
     var img = new Image();
     img.src = "data:image/jpeg;base64," + file.toString('base64');
