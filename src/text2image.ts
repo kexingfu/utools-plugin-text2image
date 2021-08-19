@@ -10,6 +10,8 @@ export const STORAGE = "vscode_storage";
 export class Text2Image implements Plugin {
   code = "转成表情";
   _imagepath: string;
+  _imagewidth: string; 
+  _linespace: number;
   _regex: string;
   setList :ListItem[]= [];
 
@@ -20,6 +22,16 @@ export class Text2Image implements Plugin {
   get imagepath(): string {
     if (!this._imagepath) this._imagepath = Setting.Get("imagepath");
     return this._imagepath;
+  }
+
+  get imagewidth(): string {
+    if (!this._imagewidth) this._imagewidth = Setting.Get("imagewidth");
+    return this._imagewidth;
+  }
+
+  get linespace(): number {
+    if (!this._linespace) this._linespace = Number(Setting.Get("linespace"));
+    return this._linespace;
   }
 
   get regex(): string {
@@ -74,19 +86,23 @@ export class Text2Image implements Plugin {
     var img = new Image();
     img.src = "data:image/jpeg;base64," + file.toString('base64');
     img.onload = ()=>{
-        var fontSize = 18;/*文字大小*/
-        var len = Math.round((img.width)/fontSize);/*文字长度*/
+        // var fontSize = 18;/*文字大小*/
+        // var len = Math.round((img.width)/fontSize);/*文字长度*/
+        var len = parseInt(this.imagewidth);/*文字长度*/
+        var fontSize = Math.round((img.width)/len);/*文字大小*/
+        
         var i = 0;
         var fontWeight = 'normal';/*normal正常;bold粗*/
         var txt = text;
         var canvas = document.createElement("canvas");
         var leftField = 3
+        var linespace = this.linespace
         if (len > txt.length) {
             len = txt.length;
         }
         canvas.width = fontSize * len;
-        canvas.height = fontSize * (3 / 2)
-                * (Math.ceil(txt.length / len) + txt.split('\n').length - 1);
+        canvas.height = fontSize * (1 + linespace)
+                * (Math.ceil(txt.length / len) + txt.split('\n').length - 1) + fontSize * linespace;
         canvas.width = img.width
         canvas.height = img.height+canvas.height
         var context = canvas.getContext('2d');
@@ -103,15 +119,15 @@ export class Text2Image implements Plugin {
             while (text.length > len) {
                 var txtLine = text.substring(0, len);
                 text = text.substring(len);
-                context.fillText(txtLine, (canvas.width-2*leftField)/2, img.height+fontSize * (3 / 2) * i++,
+                context.fillText(txtLine, (canvas.width-2*leftField)/2, img.height+fontSize * linespace + fontSize * (1 + linespace) * i++,
                         canvas.width-2*leftField);
             }
-            context.fillText(text, (canvas.width-2*leftField)/2, img.height+fontSize * (3 / 2) * i, canvas.width- leftField);
+            context.fillText(text, (canvas.width-2*leftField)/2, img.height+fontSize * linespace + fontSize * (1 + linespace) * i, canvas.width- leftField);
         }
         var txtArray = txt.split('\n');
         for (var j = 0; j < txtArray.length; j++) {
             fillTxt(txtArray[j]);
-            context.fillText('\n', (canvas.width-2*leftField)/2, img.height+fontSize * (3 / 2) * i++, canvas.width-leftField);
+            context.fillText('\n', (canvas.width-2*leftField)/2, img.height+fontSize * linespace + fontSize * (1 + linespace) * i++, canvas.width-leftField);
         }
         utools.copyImage(canvas.toDataURL("image/png"))
         if (utools.isMacOs()) {

@@ -2,7 +2,7 @@
     "pluginName": "图片聊天",
     "description": "将文字转成图片(表情)",
     
-    "version": "0.0.4",
+    "version": "0.0.6",
     "logo": "dist/logo.png",
     "preload": "dist/preload.js",
     "author": "kexingfu",
