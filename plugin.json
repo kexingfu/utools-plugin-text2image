@@ -2,7 +2,7 @@
     "pluginName": "图片聊天",
     "description": "将文字转成图片(表情)",
     
-    "version": "0.0.6",
+    "version": "0.0.7",
     "logo": "dist/logo.png",
     "preload": "dist/preload.js",
     "author": "kexingfu",
@@ -13,9 +13,9 @@
             "explain": "图片聊天",
             "cmds": [
                 {
-                    "type": "regex",
+                    "type": "over",
                     "label": "转成表情",
-                    "match": "/(.)*/g",
+                    
                     "minLength": 1,
                     "maxLength": 100
                 }

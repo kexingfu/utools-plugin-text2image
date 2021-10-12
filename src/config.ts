@@ -38,9 +38,8 @@ export const config: IConfigItem[] = [
     name: "regex",
     label: "文本匹配正则",
     type: "input",
-    required: true,
-    placeholder: "默认为/(.)*/g ，小心乱改而导致不可用",
-    default: "/(.)*/g",
+    placeholder: "默认为空（全匹配） ，参考插件详情说明更改",
+    default: "",
     only_current_machine: true,
   }
 ];

@@ -79,8 +79,15 @@ export class Text2Image implements Plugin {
     let filePath = itemData.url
     let file = fs.readFileSync(filePath); //读取文件
 
-    var reg = eval(this.regex)
-    text = reg.exec(text)[0]
+    
+    if(this.regex && this.regex !=='' && text && text !==''){
+      var reg = eval(this.regex)
+      var temp = reg.exec(text)
+      if(temp){
+        text = temp[0]
+      }
+    }
+    
     //text = text.match(this.regex)[0]
 
     var img = new Image();
